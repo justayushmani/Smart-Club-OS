@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900 antialiased;
+  }
+}
+
+.kanban-col {
+  @apply min-h-[400px] p-4 bg-gray-100 rounded-lg shadow-inner;
+}
+
+.kanban-card {
+  @apply p-4 mb-4 bg-white rounded-lg shadow border border-gray-200 transition-all hover:shadow-md;
+}
