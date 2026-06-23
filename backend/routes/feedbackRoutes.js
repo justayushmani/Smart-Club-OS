@@ -40,7 +40,7 @@ router.patch('/:id', protect, requireRole(['president']), async (req, res) => {
     if (!feedback) return res.status(404).json({ message: 'Feedback not found' });
 
     if (status) feedback.status = status;
-    if (resolutionNotes) feedback.resolutionNotes = resolutionNotes;
+    if (resolutionNotes !== undefined) feedback.resolutionNotes = resolutionNotes;
 
     const updatedFeedback = await feedback.save();
     const populatedFeedback = await updatedFeedback.populate('submittedBy', 'username');

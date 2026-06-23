@@ -7,7 +7,28 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Outfit', 'sans-serif'],
+        sans: ['Inter', 'sans-serif'],
+      },
+      colors: {
+        neutral: {
+          50: '#fafafa',
+          100: '#f5f5f5',
+          200: '#e5e5e5',
+          300: '#d4d4d4',
+          400: '#a3a3a3',
+          500: '#737373',
+          600: '#525252',
+          700: '#404040',
+          800: '#262626',
+          900: '#171717',
+          950: '#0a0a0a',
+        },
+        slate: {
+          900: '#0f0f10',
+          800: '#161617',
+          700: '#1c1c1e',
+          600: '#2c2c2e',
+        }
       },
       animation: {
         'fade-in-down': 'fadeInDown 0.4s ease-out forwards',

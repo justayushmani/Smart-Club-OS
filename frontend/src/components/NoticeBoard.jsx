@@ -44,64 +44,62 @@ const NoticeBoard = () => {
   };
 
   return (
-    <div className="p-8 max-w-5xl mx-auto h-full overflow-y-auto">
-      <div className="flex justify-between items-center mb-8">
+    <div className="p-10 max-w-4xl mx-auto h-full overflow-y-auto">
+      <div className="flex justify-between items-end mb-10 border-b border-[#2c2c2e] pb-6">
         <div>
-          <h2 className="text-3xl font-bold text-gray-800">Notice Board</h2>
-          <p className="text-gray-500">Stay updated with club announcements</p>
+          <h2 className="text-xl font-medium text-white mb-1">Notice Board</h2>
+          <p className="text-xs text-neutral-500">Official club announcements and broadcasts.</p>
         </div>
         {(user.role === 'president' || user.role === 'department_lead') && (
-          <button onClick={() => setShowForm(!showForm)} className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center shadow-md transition-all">
-            <Plus className="w-5 h-5 mr-2" /> New Notice
+          <button onClick={() => setShowForm(!showForm)} className="bg-white text-black px-3 py-1.5 text-xs font-medium rounded hover:bg-neutral-200 transition-colors flex items-center">
+            <Plus className="w-3.5 h-3.5 mr-1.5" /> New Post
           </button>
         )}
       </div>
 
       {showForm && (
-        <form onSubmit={handleSubmit} className="bg-white p-6 rounded-xl shadow-md border border-gray-100 mb-8 animate-fade-in-down">
-          <div className="grid grid-cols-2 gap-4 mb-4">
-            <input type="text" placeholder="Notice Title" className="border p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-500 outline-none" required value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })} />
-            <select className="border p-3 rounded-lg w-full outline-none" value={formData.category} onChange={e => setFormData({ ...formData, category: e.target.value })}>
+        <form onSubmit={handleSubmit} className="bg-[#161617] p-6 rounded-lg border-[0.5px] border-[#2c2c2e] mb-10">
+          <div className="grid grid-cols-[2fr_1fr] gap-4 mb-4">
+            <input type="text" placeholder="Post Title" className="bg-[#1c1c1e] border border-[#2c2c2e] text-neutral-200 px-3 py-2 text-sm focus:border-neutral-500 outline-none rounded-sm transition-colors" required value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })} />
+            <select className="bg-[#1c1c1e] border border-[#2c2c2e] text-neutral-400 px-3 py-2 text-sm focus:border-neutral-500 outline-none rounded-sm transition-colors appearance-none" value={formData.category} onChange={e => setFormData({ ...formData, category: e.target.value })}>
               <option value="general">General</option>
               <option value="event">Event</option>
               <option value="important">Important</option>
             </select>
           </div>
-          <textarea placeholder="Notice Content" className="border p-3 rounded-lg w-full h-32 mb-4 focus:ring-2 focus:ring-blue-500 outline-none" required value={formData.content} onChange={e => setFormData({ ...formData, content: e.target.value })} />
+          <textarea placeholder="Write the announcement..." className="bg-[#1c1c1e] border border-[#2c2c2e] text-neutral-200 px-3 py-3 text-sm h-32 w-full mb-4 focus:border-neutral-500 outline-none rounded-sm transition-colors resize-none" required value={formData.content} onChange={e => setFormData({ ...formData, content: e.target.value })} />
           <div className="flex justify-end gap-3">
-            <button type="button" onClick={() => setShowForm(false)} className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">Cancel</button>
-            <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow">Publish</button>
+            <button type="button" onClick={() => setShowForm(false)} className="px-3 py-1.5 text-xs text-neutral-500 hover:text-white transition-colors">Cancel</button>
+            <button type="submit" className="px-4 py-1.5 bg-white text-black text-xs font-medium rounded hover:bg-neutral-200 transition-colors">Publish</button>
           </div>
         </form>
       )}
 
       <div className="space-y-6">
         {notices.map(notice => (
-          <div key={notice._id} className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow relative overflow-hidden">
-            <div className={`absolute top-0 left-0 w-1 h-full ${notice.category === 'important' ? 'bg-red-500' : notice.category === 'event' ? 'bg-purple-500' : 'bg-blue-400'}`}></div>
-            <div className="flex justify-between items-start">
-              <div>
-                <div className="flex items-center gap-3 mb-2">
-                  <span className={`text-xs font-semibold px-2 py-1 rounded-full ${notice.category === 'important' ? 'bg-red-100 text-red-700' : notice.category === 'event' ? 'bg-purple-100 text-purple-700' : 'bg-blue-100 text-blue-700'}`}>
-                    {notice.category.toUpperCase()}
-                  </span>
-                  <span className="text-sm text-gray-500">{new Date(notice.date).toLocaleDateString()}</span>
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{notice.title}</h3>
-                <p className="text-gray-700 whitespace-pre-wrap">{notice.content}</p>
-                <div className="mt-4 flex items-center text-sm text-gray-500">
-                  <span className="font-medium text-gray-900 mr-1">{notice.author?.username}</span>
-                  ({notice.author?.role})
-                </div>
-              </div>
+          <div key={notice._id} className="bg-[#161617] p-8 rounded-lg border-[0.5px] border-[#2c2c2e] transition-all duration-150 ease-in-out hover:bg-neutral-800/40 hover:border-neutral-700 relative group">
+            <div className="flex justify-between items-start mb-4">
+              <span className="border border-neutral-800 text-neutral-400 bg-transparent px-2 py-0.5 text-[9px] uppercase tracking-wider rounded-sm">
+                {notice.category}
+              </span>
               {user.role === 'president' && (
-                <button onClick={() => handleDelete(notice._id)} className="text-gray-400 hover:text-red-500 p-2 transition-colors">
-                  <Trash2 className="w-5 h-5" />
+                <button onClick={() => handleDelete(notice._id)} className="text-neutral-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <Trash2 className="w-4 h-4" />
                 </button>
               )}
             </div>
+            <h3 className="text-lg font-medium text-white mb-4">{notice.title}</h3>
+            <p className="text-neutral-400 text-sm leading-relaxed whitespace-pre-wrap">{notice.content}</p>
+            <div className="mt-8 flex items-center text-[11px] text-neutral-500 uppercase tracking-widest">
+              <span className="text-neutral-300 mr-2">{notice.author?.username}</span>
+              <div className="w-[1px] h-3 bg-neutral-800 mx-2"></div>
+              <span>{new Date(notice.date).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}</span>
+            </div>
           </div>
         ))}
+        {notices.length === 0 && (
+          <div className="text-center text-neutral-600 text-sm py-10">No active notices.</div>
+        )}
       </div>
     </div>
   );

@@ -7,7 +7,6 @@ const FormBuilder = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // Try to fetch existing form to prepopulate
     const fetchForm = async () => {
       try {
         const res = await api.get('/recruitment/form/public');
@@ -15,7 +14,6 @@ const FormBuilder = () => {
           setQuestions(res.data.questions);
         }
       } catch (err) {
-        // If 404, it means no form exists yet, which is fine
         console.log('No active form found to prepopulate.');
       }
     };
@@ -56,88 +54,88 @@ const FormBuilder = () => {
   };
 
   return (
-    <div className="p-8 h-full overflow-y-auto">
-      <div className="flex justify-between items-center mb-8">
+    <div className="p-10 max-w-4xl mx-auto h-full overflow-y-auto">
+      <div className="flex justify-between items-end mb-10 border-b border-[#2c2c2e] pb-6">
         <div>
-          <h2 className="text-3xl font-extrabold text-gray-800">Application Form Builder</h2>
-          <p className="text-gray-500">Design the custom questions for new applicants</p>
+          <h2 className="text-xl font-medium text-white mb-1">Form Builder</h2>
+          <p className="text-xs text-neutral-500">Construct application data schemas</p>
         </div>
         <button 
           onClick={handleSave} 
           disabled={loading}
-          className="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-xl flex items-center shadow-lg transition-all font-semibold"
+          className="bg-white hover:bg-neutral-200 text-black px-4 py-1.5 text-xs font-medium rounded transition-colors flex items-center"
         >
-          <Save className="w-5 h-5 mr-2" /> {loading ? 'Saving...' : 'Save Template'}
+          <Save className="w-3.5 h-3.5 mr-1.5" /> {loading ? 'Saving...' : 'Deploy'}
         </button>
       </div>
 
-      <div className="space-y-6 max-w-3xl">
+      <div className="space-y-6">
         {questions.map((q, index) => (
-          <div key={q.id} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex gap-4 items-start relative group">
-            <div className="flex-1 space-y-4">
-              <div className="flex gap-4">
+          <div key={q.id} className="bg-[#161617] p-8 rounded-sm border-[0.5px] border-[#2c2c2e] flex gap-8 items-start relative group transition-all hover:bg-neutral-800/40 hover:border-neutral-700">
+            <div className="flex-1 space-y-6">
+              <div className="flex gap-6">
                 <div className="flex-1">
-                  <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Question Label</label>
+                  <label className="block text-[10px] font-bold text-neutral-500 uppercase tracking-widest mb-3">Field Label</label>
                   <input 
                     type="text" 
                     value={q.label}
                     onChange={(e) => updateQuestion(q.id, 'label', e.target.value)}
-                    placeholder="e.g., Why do you want to join?"
-                    className="w-full border border-gray-200 rounded-lg p-2.5 text-gray-800 focus:ring-2 focus:ring-blue-500 outline-none"
+                    placeholder="E.g., Portfolio URL"
+                    className="w-full bg-transparent border-b border-[#2c2c2e] focus:border-white focus:outline-none text-white pb-2 text-sm transition-colors"
                   />
                 </div>
                 <div className="w-48">
-                  <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Answer Type</label>
+                  <label className="block text-[10px] font-bold text-neutral-500 uppercase tracking-widest mb-3">Data Type</label>
                   <select 
                     value={q.type}
                     onChange={(e) => updateQuestion(q.id, 'type', e.target.value)}
-                    className="w-full border border-gray-200 rounded-lg p-2.5 text-gray-800 focus:ring-2 focus:ring-blue-500 outline-none"
+                    className="w-full bg-transparent border-b border-[#2c2c2e] focus:border-white focus:outline-none text-white pb-2 text-sm transition-colors appearance-none"
                   >
-                    <option value="text">Short Text</option>
-                    <option value="textarea">Long Paragraph</option>
-                    <option value="dropdown">Dropdown Options</option>
+                    <option value="text" className="bg-[#0a0a0a]">Short String</option>
+                    <option value="textarea" className="bg-[#0a0a0a]">Long Text</option>
+                    <option value="dropdown" className="bg-[#0a0a0a]">Dropdown Enum</option>
                   </select>
                 </div>
               </div>
 
               {q.type === 'dropdown' && (
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Dropdown Options (Comma separated)</label>
+                  <label className="block text-[10px] font-bold text-neutral-500 uppercase tracking-widest mb-3">Enum Values (CSV)</label>
                   <input 
                     type="text" 
                     value={q.options.join(', ')}
                     onChange={(e) => updateQuestion(q.id, 'options', e.target.value.split(',').map(s => s.trim()))}
-                    placeholder="Option 1, Option 2, Option 3"
-                    className="w-full border border-gray-200 rounded-lg p-2.5 text-gray-800 focus:ring-2 focus:ring-blue-500 outline-none"
+                    placeholder="React, Vue, Angular"
+                    className="w-full bg-transparent border-b border-[#2c2c2e] focus:border-white focus:outline-none text-white pb-2 text-sm transition-colors"
                   />
                 </div>
               )}
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3 pt-2">
                 <input 
                   type="checkbox" 
                   checked={q.required}
                   onChange={(e) => updateQuestion(q.id, 'required', e.target.checked)}
                   id={`req-${q.id}`}
-                  className="w-4 h-4 text-blue-600 rounded"
+                  className="appearance-none w-3.5 h-3.5 border border-[#2c2c2e] rounded-sm checked:bg-white checked:border-white cursor-pointer transition-colors"
                 />
-                <label htmlFor={`req-${q.id}`} className="text-sm text-gray-600">Required field</label>
+                <label htmlFor={`req-${q.id}`} className="text-xs text-neutral-500 tracking-wide uppercase cursor-pointer">Required constraint</label>
               </div>
             </div>
             <button 
               onClick={() => removeQuestion(q.id)}
-              className="text-red-400 hover:text-red-600 p-2 bg-red-50 hover:bg-red-100 rounded-lg transition-colors"
+              className="text-neutral-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity mt-1"
             >
-              <Trash2 className="w-5 h-5" />
+              <Trash2 className="w-4 h-4" />
             </button>
           </div>
         ))}
 
         <button 
           onClick={addQuestion}
-          className="w-full py-4 border-2 border-dashed border-gray-300 rounded-2xl text-gray-500 hover:text-blue-600 hover:border-blue-300 hover:bg-blue-50 transition-all font-bold flex justify-center items-center"
+          className="w-full py-6 border-[0.5px] border-dashed border-[#2c2c2e] hover:border-neutral-600 rounded-sm text-neutral-500 hover:text-white transition-all text-xs font-medium tracking-wide uppercase flex justify-center items-center"
         >
-          <Plus className="w-5 h-5 mr-2" /> Add New Question
+          <Plus className="w-3.5 h-3.5 mr-2" /> Add Field
         </button>
       </div>
     </div>

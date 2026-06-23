@@ -7,6 +7,9 @@ const router = express.Router();
 router.get('/:channel', protect, async (req, res) => {
   const channel = `#${req.params.channel}`;
   try {
+    if (req.user.role === 'member' && channel !== `#${req.user.department}-wing` && channel !== '#announcements') {
+      return res.status(403).json({ message: 'Members can only view their respective department and announcements' });
+    }
     const messages = await ChatMessage.find({ channel }).populate('sender', 'username role').sort({ timestamp: 1 });
     res.json(messages);
   } catch (error) {
@@ -19,6 +22,10 @@ router.post('/:channel', protect, async (req, res) => {
   const { text } = req.body;
 
   try {
+    if (req.user.role === 'member' && channel !== `#${req.user.department}-wing`) {
+      return res.status(403).json({ message: 'Members can only message in their respective department' });
+    }
+
     if (channel === '#announcements' && req.user.role !== 'president') {
       return res.status(403).json({ message: 'Only president can post in announcements' });
     }

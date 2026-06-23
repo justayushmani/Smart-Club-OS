@@ -72,6 +72,24 @@ router.post('/simulate', async (req, res) => {
   } else if (profile === 'member') {
     simulatedData = { _id: '60d5ec9af682fbd39a1b8b9c', username: 'Alex', role: 'member', department: 'tech', isSimulated: true };
   }
+
+  try {
+    if (simulatedData._id) {
+      await User.findByIdAndUpdate(
+        simulatedData._id,
+        { 
+          username: simulatedData.username, 
+          role: simulatedData.role, 
+          department: simulatedData.department, 
+          email: `${simulatedData.username.toLowerCase()}@simulator.com`, 
+          password: 'password123' 
+        },
+        { upsert: true }
+      );
+    }
+  } catch (err) {
+    console.error('Error upserting simulated user:', err);
+  }
   
   const token = jwt.sign(simulatedData, process.env.JWT_SECRET || 'secret123', { expiresIn: '30d' });
   res.json({ ...simulatedData, token });
