@@ -18,6 +18,8 @@ app.use('/api/recruits', require('./routes/recruitRoutes')); // Legacy
 app.use('/api/recruitment', require('./routes/recruitment')); // New ATS
 app.use('/api/feedback', require('./routes/feedbackRoutes'));
 app.use('/api/chat', require('./routes/chatRoutes'));
+app.use('/api/events', require('./routes/eventRoutes'));
+app.use('/api/attendance', require('./routes/attendanceRoutes'));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

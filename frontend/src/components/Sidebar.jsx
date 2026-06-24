@@ -1,5 +1,5 @@
 import React from 'react';
-import { LogOut, Home, MessageSquare, ClipboardList, Users, ShieldAlert } from 'lucide-react';
+import { LogOut, Home, MessageSquare, ClipboardList, Users, ShieldAlert, Calendar, CalendarDays, CheckSquare } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const Sidebar = ({ activeTab, setActiveTab }) => {
@@ -7,7 +7,10 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
 
   const tabs = [
     { id: 'notices', label: 'Notice Board', icon: Home },
-    { id: 'tasks', label: 'Kanban Tasks', icon: ClipboardList },
+    { id: 'events', label: 'Events Registry', icon: CalendarDays },
+    { id: 'calendar', label: 'Calendar', icon: Calendar },
+    { id: 'attendance', label: 'Attendance Registry', icon: CheckSquare },
+    { id: 'tasks', label: 'Project Board', icon: ClipboardList },
     { id: 'chat', label: 'Discussions', icon: MessageSquare },
     { id: 'recruits', label: 'Recruitment ATS', icon: Users },
     { id: 'form_builder', label: 'Form Builder', icon: ClipboardList, roles: ['president'] },

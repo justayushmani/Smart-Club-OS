@@ -97,7 +97,7 @@ const KanbanTracker = () => {
     <div className="p-8 h-full flex flex-col max-w-7xl mx-auto">
       <div className="flex justify-between items-end mb-8 border-b border-[#2c2c2e] pb-6">
         <div>
-          <h2 className="text-xl font-medium text-white mb-1">Task Board</h2>
+          <h2 className="text-xl font-medium text-white mb-1">Project Board</h2>
           <p className="text-xs text-neutral-500">Departmental workflow execution</p>
         </div>
         {(user.role === 'president' || user.role === 'department_lead') && (

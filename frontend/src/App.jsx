@@ -8,6 +8,9 @@ import AdminATS from './components/AdminATS';
 import FeedbackBoard from './components/FeedbackBoard';
 import FormBuilder from './components/FormBuilder';
 import JoinUs from './components/JoinUs';
+import EventsRegistry from './components/EventsRegistry';
+import EventsCalendar from './components/EventsCalendar';
+import AttendanceRegistry from './components/AttendanceRegistry';
 
 const Login = () => {
   const { login, register } = useAuth();
@@ -137,6 +140,9 @@ const MainApp = () => {
   const renderContent = () => {
     switch (activeTab) {
       case 'notices': return <NoticeBoard />;
+      case 'events': return <EventsRegistry />;
+      case 'calendar': return <EventsCalendar />;
+      case 'attendance': return <AttendanceRegistry />;
       case 'tasks': return <KanbanTracker />;
       case 'chat': return <ChatPanel />;
       case 'recruits': return <AdminATS />;
