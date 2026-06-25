@@ -28,7 +28,14 @@ export default {
           800: '#161617',
           700: '#1c1c1e',
           600: '#2c2c2e',
-        }
+        },
+        obsidian: '#070809',
+        surface: '#0e1113',
+        mint: '#00ff66',
+        paper: '#f8f9fa',
+        ink: '#111111',
+        drafting: '#e5e7eb',
+        blueprint: '#2563eb',
       },
       animation: {
         'fade-in-down': 'fadeInDown 0.4s ease-out forwards',

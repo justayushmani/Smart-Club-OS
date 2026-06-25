@@ -33,9 +33,9 @@ const Login = () => {
 
   if (isApplying) {
     return (
-      <div className="relative bg-[#0a0a0a] min-h-screen text-neutral-200">
-        <button onClick={() => setIsApplying(false)} className="absolute top-6 left-6 z-50 text-[11px] uppercase tracking-widest text-neutral-500 hover:text-white transition-colors duration-150">
-          ← Back to Login
+      <div className="relative bg-paper min-h-screen text-ink">
+        <button onClick={() => setIsApplying(false)} className="absolute top-6 left-6 z-50 text-[11px] uppercase tracking-widest text-neutral-500 hover:text-blueprint transition-colors duration-150 flex items-center gap-2">
+          <span className="bg-white border-2 border-ink px-1.5 py-0.5 rounded-none text-[9px] text-ink font-mono font-bold shadow-[1px_1px_0_0_#111111]">[Esc ⎋]</span> Back to Login
         </button>
         <JoinUs />
       </div>
@@ -43,10 +43,10 @@ const Login = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center p-4 relative font-sans text-neutral-200 selection:bg-indigo-500/30">
+    <div className="min-h-screen bg-paper flex items-center justify-center p-4 relative font-sans text-ink selection:bg-blueprint/20">
       <div className="w-full max-w-sm">
         <div className="text-center mb-10">
-          <h1 className="font-bold tracking-widest uppercase text-white text-lg flex flex-col gap-1 items-center">
+          <h1 className="font-bold tracking-widest uppercase text-ink text-lg flex flex-col gap-1 items-center">
             TECHNOVATION
             <span className="text-[10px] text-neutral-500 tracking-widest uppercase">Smart Club OS</span>
           </h1>
@@ -54,19 +54,19 @@ const Login = () => {
         
         <form onSubmit={handleSubmit} className="space-y-4">
           {!isLogin && (
-            <input type="text" placeholder="Username" required className="w-full bg-[#161617] border border-[#2c2c2e] text-neutral-200 placeholder-neutral-600 px-4 py-3 text-sm focus:border-neutral-500 focus:outline-none transition-all" value={formData.username} onChange={e => setFormData({ ...formData, username: e.target.value })} />
+            <input type="text" placeholder="Username" required className="w-full schematic-input px-4 py-3 text-sm" value={formData.username} onChange={e => setFormData({ ...formData, username: e.target.value })} />
           )}
-          <input type="email" placeholder="Email Address" required className="w-full bg-[#161617] border border-[#2c2c2e] text-neutral-200 placeholder-neutral-600 px-4 py-3 text-sm focus:border-neutral-500 focus:outline-none transition-all" value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} />
-          <input type="password" placeholder="Password" required className="w-full bg-[#161617] border border-[#2c2c2e] text-neutral-200 placeholder-neutral-600 px-4 py-3 text-sm focus:border-neutral-500 focus:outline-none transition-all" value={formData.password} onChange={e => setFormData({ ...formData, password: e.target.value })} />
+          <input type="email" placeholder="Email Address" required className="w-full schematic-input px-4 py-3 text-sm" value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} />
+          <input type="password" placeholder="Password" required className="w-full schematic-input px-4 py-3 text-sm" value={formData.password} onChange={e => setFormData({ ...formData, password: e.target.value })} />
           
           {!isLogin && (
-            <div className="flex gap-4">
-              <select className="flex-1 bg-[#161617] border border-[#2c2c2e] text-neutral-400 px-4 py-3 text-sm focus:border-neutral-500 focus:outline-none transition-all appearance-none" value={formData.role} onChange={e => setFormData({ ...formData, role: e.target.value })}>
+            <div className="flex gap-4 pt-2">
+              <select className="flex-1 schematic-input px-4 py-3 text-sm appearance-none" value={formData.role} onChange={e => setFormData({ ...formData, role: e.target.value })}>
                 <option value="member">Member</option>
                 <option value="department_lead">Dept Lead</option>
                 <option value="president">President</option>
               </select>
-              <select className="flex-1 bg-[#161617] border border-[#2c2c2e] text-neutral-400 px-4 py-3 text-sm focus:border-neutral-500 focus:outline-none transition-all appearance-none" value={formData.department} onChange={e => setFormData({ ...formData, department: e.target.value })}>
+              <select className="flex-1 schematic-input px-4 py-3 text-sm appearance-none" value={formData.department} onChange={e => setFormData({ ...formData, department: e.target.value })}>
                 <option value="tech">Tech Wing</option>
                 <option value="design">Design Wing</option>
                 <option value="pr">PR Wing</option>
@@ -75,22 +75,22 @@ const Login = () => {
             </div>
           )}
 
-          <button type="submit" className="w-full bg-white text-black px-4 py-3 text-sm font-medium hover:bg-neutral-200 transition-colors duration-150 mt-2">
+          <button type="submit" className="w-full schematic-button mt-4">
             {isLogin ? 'Sign In' : 'Create Account'}
           </button>
         </form>
 
         <div className="mt-8 flex flex-col items-center gap-6">
-          <div className="text-center text-[11px] text-neutral-500 tracking-wide uppercase">
+          <div className="text-center text-[11px] text-neutral-600 tracking-wide uppercase font-mono">
             {isLogin ? "New to the club? " : "Already registered? "}
-            <button onClick={() => setIsLogin(!isLogin)} className="text-neutral-300 hover:text-white transition-colors duration-150 ml-1">
+            <button onClick={() => setIsLogin(!isLogin)} className="text-ink hover:text-blueprint transition-colors duration-150 ml-1 font-bold">
               {isLogin ? 'Register now' : 'Sign in here'}
             </button>
           </div>
           
-          <div className="w-full h-[0.5px] bg-[#2c2c2e]"></div>
+          <div className="w-full h-[2px] bg-ink/10"></div>
           
-          <button onClick={() => setIsApplying(true)} className="text-[10px] font-bold text-neutral-400 hover:text-white transition-colors uppercase tracking-widest">
+          <button onClick={() => setIsApplying(true)} className="text-[10px] font-bold text-neutral-500 hover:text-ink transition-colors uppercase tracking-widest font-mono">
             View Public Application Form
           </button>
         </div>
@@ -103,27 +103,29 @@ const Header = ({ user }) => {
   const getInitials = (name) => name ? name.substring(0, 2).toUpperCase() : '??';
 
   return (
-    <header className="h-14 border-b border-[#2c2c2e] bg-[#0a0a0a] flex items-center justify-between px-6 shrink-0 z-10 sticky top-0">
+    <header className="h-14 border-b-2 border-ink bg-white flex items-center justify-between px-6 shrink-0 z-10 sticky top-0 shadow-[0_2px_0_0_#111111]">
       <div className="flex items-center gap-3">
         <div className="flex items-baseline gap-2">
-          <span className="font-bold tracking-widest uppercase text-white text-sm">TECHNOVATION</span>
-          <span className="tracking-widest uppercase text-[10px] text-neutral-500">Smart Club OS</span>
+          <span className="font-mono font-bold tracking-widest text-ink uppercase text-sm">TECHNOVATION://</span>
+          <span className="text-blueprint font-mono text-xs">smart_club_os</span>
         </div>
       </div>
       
-      <div className="hidden md:flex items-center text-[10px] uppercase tracking-widest text-neutral-500 border border-[#2c2c2e] px-3 py-1 rounded-full">
-        <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full mr-2 animate-pulse-slow"></span>
-        Active Tenure: 2025–2026
+      <div className="hidden md:flex items-center text-[10px] uppercase tracking-widest font-mono text-ink">
+        <span className="text-neutral-500 mr-2">db_ping: <span className="text-blueprint font-bold">12ms</span></span>
+        <span className="text-neutral-500">/ status: <span className="text-blueprint font-bold flex items-center inline-flex gap-1.5"><span className="w-2 h-2 bg-blueprint rounded-none animate-pulse"></span>active</span></span>
       </div>
 
       <div className="flex items-center gap-4">
-        <div className="bg-[#161617] border border-[#2c2c2e] rounded-full px-3 py-1 flex items-center">
-          <span className="text-[10px] text-neutral-500 uppercase tracking-widest mr-2">Role:</span>
-          <select disabled className="bg-transparent text-xs text-neutral-300 outline-none appearance-none cursor-default font-medium">
-            <option>{user.role}</option>
-          </select>
+        <div className="bg-paper border-2 border-ink rounded-none px-3 py-1 flex items-center font-mono shadow-[2px_2px_0_0_#111111]">
+          <span className="text-blueprint font-bold mr-2">$</span>
+          <span className="text-[10px] text-neutral-600 uppercase tracking-widest mr-1">whoami --role=</span>
+          <div className="flex items-center">
+            <span className="text-xs text-ink font-bold uppercase">{user.role}</span>
+            <span className="text-blueprint ml-1 animate-pulse">▋</span>
+          </div>
         </div>
-        <div className="w-8 h-8 rounded-full bg-[#1c1c1e] border border-[#2c2c2e] flex items-center justify-center text-xs font-medium text-neutral-300">
+        <div className="w-8 h-8 rounded-none bg-paper border-2 border-ink flex items-center justify-center text-xs font-mono font-bold text-blueprint shadow-[2px_2px_0_0_#111111]">
           {getInitials(user.username)}
         </div>
       </div>
@@ -153,11 +155,11 @@ const MainApp = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-[#0a0a0a] text-neutral-200 font-sans selection:bg-indigo-500/30">
+    <div className="flex flex-col h-screen overflow-hidden bg-paper text-ink font-sans selection:bg-blueprint/20">
       <Header user={user} />
       <div className="flex flex-1 overflow-hidden">
         <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
-        <main className="flex-1 overflow-y-auto bg-[#0a0a0a]">
+        <main className="flex-1 overflow-y-auto bg-transparent relative z-0">
           {renderContent()}
         </main>
       </div>

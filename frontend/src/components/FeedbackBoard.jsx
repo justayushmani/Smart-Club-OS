@@ -43,71 +43,80 @@ const FeedbackBoard = () => {
   };
 
   return (
-    <div className="p-10 max-w-4xl mx-auto h-full overflow-y-auto">
-      <div className="mb-10 border-b border-[#2c2c2e] pb-6 flex justify-between items-end">
+    <div className="p-10 max-w-4xl mx-auto h-full overflow-y-auto relative font-mono">
+      <div className="mb-10 border-b-2 border-ink pb-6 flex justify-between items-end">
         <div>
-          <h2 className="text-xl font-medium text-white mb-1">Feedback Registry</h2>
-          <p className="text-xs text-neutral-500">Secure, closed-loop grievance pipeline</p>
+          <h2 className="text-xl font-bold text-ink mb-1">Feedback Registry</h2>
+          <p className="text-xs text-neutral-500">~/secure_closed_loop_pipeline</p>
         </div>
       </div>
 
-      <form onSubmit={submitFeedback} className="bg-[#161617] p-8 rounded-sm border-[0.5px] border-[#2c2c2e] mb-12">
-        <textarea
-          required
-          className="w-full bg-transparent border-b border-[#2c2c2e] text-neutral-200 py-3 text-sm focus:border-white focus:outline-none transition-colors resize-none h-16 mb-6 placeholder-neutral-600"
-          placeholder="Log a new concern or suggestion..."
-          value={form.text}
-          onChange={e => setForm({ ...form, text: e.target.value })}
-        />
-        <div className="flex justify-between items-center">
-          <div className="flex items-center gap-6">
-            <select className="bg-transparent text-neutral-400 text-xs uppercase tracking-widest outline-none cursor-pointer appearance-none border-b border-transparent focus:border-[#2c2c2e]" value={form.category} onChange={e => setForm({ ...form, category: e.target.value })}>
-              <option className="bg-[#0a0a0a]">General</option>
-              <option className="bg-[#0a0a0a]">Facilities</option>
-              <option className="bg-[#0a0a0a]">Harassment</option>
-              <option className="bg-[#0a0a0a]">Management</option>
-            </select>
-            <label className="flex items-center gap-2 text-xs text-neutral-500 uppercase tracking-widest cursor-pointer">
-              <input type="checkbox" checked={form.isAnonymous} onChange={e => setForm({ ...form, isAnonymous: e.target.checked })} className="appearance-none w-3 h-3 border border-[#2c2c2e] rounded-sm checked:bg-white checked:border-white cursor-pointer transition-colors" />
-              Anon Mode
-            </label>
-          </div>
-          <button type="submit" className="bg-white text-black px-4 py-1.5 rounded-sm text-xs font-medium hover:bg-neutral-200 transition-colors">Submit</button>
+      <div className="mb-12 schematic-card flex flex-col">
+        <div className="bg-drafting/30 border-b-2 border-ink px-4 py-2 flex justify-between items-center">
+          <span className="text-[10px] text-blueprint uppercase tracking-widest font-bold">[SECURED FEEDBACK TUNNEL_]</span>
+          <span className="w-2 h-2 bg-blueprint rounded-none shadow-[1px_1px_0_0_#111111] animate-pulse"></span>
         </div>
-      </form>
+        <form onSubmit={submitFeedback} className="p-0 flex flex-col">
+          <div className="flex">
+            <div className="w-10 shrink-0 border-r-2 border-drafting bg-drafting/20 flex flex-col items-center py-4 text-[10px] text-neutral-400 select-none font-bold">
+               <span>1</span><span>2</span><span>3</span><span>4</span>
+            </div>
+            <textarea
+              required
+              className="flex-1 bg-transparent text-ink p-4 text-sm focus:outline-none resize-none h-24 placeholder-neutral-400 font-mono"
+              placeholder="$ echo 'Log a new concern or suggestion...'"
+              value={form.text}
+              onChange={e => setForm({ ...form, text: e.target.value })}
+            />
+          </div>
+          <div className="flex justify-between items-center p-4 border-t-2 border-ink bg-drafting/20">
+            <div className="flex items-center gap-6">
+              <select className="schematic-input text-[10px] uppercase tracking-widest outline-none cursor-pointer appearance-none pb-1 font-bold" value={form.category} onChange={e => setForm({ ...form, category: e.target.value })}>
+                <option className="bg-paper">General</option>
+                <option className="bg-paper">Facilities</option>
+                <option className="bg-paper">Harassment</option>
+                <option className="bg-paper">Management</option>
+              </select>
+              <label className="flex items-center gap-2 text-[10px] text-neutral-600 uppercase tracking-widest cursor-pointer font-bold">
+                <input type="checkbox" checked={form.isAnonymous} onChange={e => setForm({ ...form, isAnonymous: e.target.checked })} className="appearance-none w-3 h-3 border-2 border-ink rounded-none checked:bg-blueprint checked:border-blueprint cursor-pointer transition-colors shadow-[1px_1px_0_0_#111111]" />
+                Anon Mode
+              </label>
+            </div>
+            <button type="submit" className="schematic-button text-[10px]">[Enter ↵] Execute</button>
+          </div>
+        </form>
+      </div>
 
       <div className="space-y-8">
-        <h3 className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest mb-6">Archive</h3>
+        <h3 className="text-[10px] font-bold text-ink uppercase tracking-widest mb-6">Archive</h3>
         {feedbacks.length === 0 && <p className="text-sm text-neutral-600 italic">No registry records found.</p>}
         {feedbacks.map(fb => (
-          <div key={fb._id} className="relative group pl-6">
-            <div className="absolute left-0 top-0 bottom-0 w-[1px] bg-[#2c2c2e]"></div>
-            
+          <div key={fb._id} className="schematic-card p-6 flex flex-col mb-4">
             <div className="flex justify-between items-start mb-4">
               <div className="flex items-center gap-3">
-                <span className="text-[9px] border border-neutral-800 text-neutral-400 px-1.5 py-0.5 uppercase tracking-widest rounded-sm">
-                  {fb.category}
-                </span>
-                <span className={`text-[9px] uppercase tracking-widest ${fb.status === 'Resolved' ? 'text-indigo-400' : fb.status === 'In Progress' ? 'text-amber-500' : 'text-neutral-500'}`}>
-                  {fb.status}
-                </span>
+                <div className={`w-8 h-8 rounded-none flex items-center justify-center border-2 border-ink text-xs font-mono font-bold shadow-[1px_1px_0_0_#111111] ${fb.isAnonymous ? 'bg-drafting text-neutral-500' : 'bg-blueprint text-white'}`}>
+                  {fb.isAnonymous ? '?' : fb.author?.username?.substring(0,2).toUpperCase()}
+                </div>
+                <div>
+                  <h4 className="font-bold text-ink text-sm font-mono">{fb.isAnonymous ? 'Anonymous' : fb.author?.username}</h4>
+                  <span className="text-[10px] text-neutral-500 font-mono tracking-widest uppercase">{new Date(fb.createdAt).toLocaleDateString()} • {fb.category}</span>
+                </div>
               </div>
-              <span className="text-[10px] text-neutral-500 tracking-widest uppercase">{new Date(fb.date).toLocaleDateString(undefined, {month: 'short', day: 'numeric', year: 'numeric'})}</span>
+              <span className={`text-[10px] font-bold font-mono tracking-widest px-2 py-0.5 border-2 ${
+                fb.status === 'Resolved' ? 'bg-blueprint/10 text-blueprint border-blueprint' : 
+                fb.status === 'In Progress' ? 'bg-orange-500/10 text-orange-600 border-orange-500' : 
+                'bg-red-500/10 text-red-600 border-red-500'
+              }`}>
+                [{fb.status}]
+              </span>
             </div>
             
-            <p className="text-neutral-300 text-sm leading-relaxed mb-4 pl-2 border-l-2 border-[#161617] whitespace-pre-wrap italic">
-              "{fb.text}"
-            </p>
-            
-            <div className="flex items-center text-[10px] text-neutral-600 uppercase tracking-widest mb-4">
-              <span className="mr-2">Origin:</span>
-              {fb.isAnonymous ? <span className="text-neutral-500">Anonymous</span> : <span className="text-neutral-300">{fb.submittedBy?.username}</span>}
-            </div>
+            <p className="text-sm text-ink leading-relaxed mb-4 font-mono whitespace-pre-wrap">{fb.text}</p>
 
             {fb.resolutionNotes && (
-              <div className="bg-[#161617] p-4 rounded-sm border-[0.5px] border-[#2c2c2e] mt-2 mb-4">
-                <span className="block text-[9px] text-neutral-500 uppercase tracking-widest mb-2">Resolution Output</span>
-                <p className="text-sm text-neutral-300">{fb.resolutionNotes}</p>
+              <div className="schematic-card p-4 mt-2 mb-4">
+                <span className="block text-[9px] text-blueprint uppercase tracking-widest mb-2 font-mono font-bold">Resolution Output</span>
+                <p className="text-sm text-neutral-700 font-sans">{fb.resolutionNotes}</p>
               </div>
             )}
 
@@ -120,15 +129,15 @@ const FeedbackBoard = () => {
                 ) : (
                   <div className="mt-2">
                     <textarea 
-                      placeholder="Publish resolution steps..." 
-                      className="w-full bg-transparent border-b border-[#2c2c2e] text-neutral-200 py-2 text-sm focus:border-white focus:outline-none transition-colors resize-none placeholder-neutral-600 mb-3"
-                      value={resolutionForms[fb._id]}
+                      placeholder="$ append_resolution..." 
+                      className="schematic-input w-full py-2 text-sm text-ink resize-none mb-3"
+                      value={resolutionForms[fb._id] || ''}
                       onChange={e => setResolutionForms({ ...resolutionForms, [fb._id]: e.target.value })}
                     />
-                    <div className="flex gap-3">
-                      <button onClick={() => updateStatus(fb._id, 'In Progress', resolutionForms[fb._id])} className="text-[10px] uppercase tracking-widest border border-neutral-800 text-neutral-400 hover:text-white hover:border-white px-3 py-1.5 rounded-sm transition-colors">Mark Progress</button>
-                      <button onClick={() => updateStatus(fb._id, 'Resolved', resolutionForms[fb._id])} className="text-[10px] uppercase tracking-widest bg-white text-black px-3 py-1.5 rounded-sm hover:bg-neutral-200 transition-colors">Mark Resolved</button>
-                      <button onClick={() => setResolutionForms({ ...resolutionForms, [fb._id]: undefined })} className="text-[10px] uppercase tracking-widest text-neutral-600 hover:text-neutral-400 px-2 py-1.5 transition-colors">Abort</button>
+                    <div className="flex gap-3 mt-2">
+                      <button onClick={() => updateStatus(fb._id, 'In Progress', resolutionForms[fb._id])} className="schematic-button text-[10px]">Mark Progress</button>
+                      <button onClick={() => updateStatus(fb._id, 'Resolved', resolutionForms[fb._id])} className="schematic-button text-[10px]">Mark Resolved</button>
+                      <button onClick={() => setResolutionForms({ ...resolutionForms, [fb._id]: undefined })} className="schematic-button text-[10px] opacity-70">Abort</button>
                     </div>
                   </div>
                 )}

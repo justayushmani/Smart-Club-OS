@@ -46,45 +46,50 @@ const KanbanTracker = () => {
   const renderCol = (title, stage) => {
     const colTasks = tasks.filter(t => t.stage === stage);
     return (
-      <div className="flex-1 min-w-[300px] border-r border-[#2c2c2e] px-6 last:border-r-0 flex flex-col">
-        <div className="flex justify-between items-center mb-6 pt-2">
-          <h3 className="text-xs font-bold text-neutral-500 uppercase tracking-widest">{title}</h3>
-          <span className="text-[10px] text-neutral-600">{colTasks.length}</span>
+      <div className="flex-1 min-w-[320px] border-2 border-ink bg-white rounded-none p-4 flex flex-col shadow-[4px_4px_0_0_#111111] mb-2 relative">
+        <div className="flex justify-between items-center mb-6 pt-2 border-b-2 border-ink pb-3">
+          <h3 className="text-[11px] font-mono font-bold text-ink uppercase tracking-widest">{title}</h3>
+          <span className="text-[10px] font-mono text-blueprint bg-blueprint/10 px-2 py-0.5 border-2 border-blueprint">{colTasks.length} items</span>
         </div>
-        <div className="space-y-6 flex-1 overflow-y-auto pb-6">
+        <div className="space-y-4 flex-1 overflow-y-auto pb-4 pr-1">
           {colTasks.map(task => {
             const isAssignee = task.assignee?._id === user._id;
             const canModify = user.role !== 'member' || isAssignee;
             const canComplete = user.role !== 'member';
 
             return (
-              <div key={task._id} className="group relative">
-                <div className="flex justify-between items-start mb-2">
-                  <span className="text-[9px] font-bold tracking-widest uppercase px-1.5 py-0.5 border border-neutral-800 text-neutral-400 bg-transparent rounded-sm">
-                    {task.department}
-                  </span>
-                  {task.deadline && <span className="text-[10px] text-neutral-500">Due {new Date(task.deadline).toLocaleDateString(undefined, {month: 'short', day: 'numeric'})}</span>}
+              <div key={task._id} className="group relative schematic-card p-4 flex mb-4">
+                {/* Line numbers gutter */}
+                <div className="w-6 shrink-0 border-r-2 border-drafting mr-3 flex flex-col items-center text-[9px] text-neutral-400 font-mono py-1 select-none">
+                  <span>01</span><span>02</span><span>03</span><span>04</span>
                 </div>
-                <h4 className="font-medium text-sm text-neutral-200 mb-2">{task.title}</h4>
-                <p className="text-xs text-neutral-500 leading-relaxed mb-4">{task.description}</p>
-                <div className="flex items-center text-[10px] text-neutral-600 tracking-wide uppercase">
-                  <span>Assignee:</span>
-                  <span className="ml-2 text-neutral-400">{task.assignee?.username || 'Unassigned'}</span>
-                </div>
-                
-                {canModify && (
-                  <div className="absolute top-0 right-0 h-full bg-[#0a0a0a]/90 backdrop-blur-sm w-full flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out">
-                    {stage === 'todo' && <button onClick={() => updateStage(task._id, 'progress')} className="px-3 py-1.5 text-[10px] uppercase tracking-widest border border-neutral-700 hover:border-white text-neutral-400 hover:text-white transition-all bg-transparent rounded-sm">Start Task</button>}
-                    {stage === 'progress' && (
-                      <>
-                        <button onClick={() => updateStage(task._id, 'todo')} className="px-3 py-1.5 text-[10px] uppercase tracking-widest border border-neutral-700 hover:border-white text-neutral-400 hover:text-white transition-all bg-transparent rounded-sm">Rewind</button>
-                        {canComplete && <button onClick={() => updateStage(task._id, 'done')} className="px-3 py-1.5 text-[10px] uppercase tracking-widest border border-neutral-700 hover:border-white text-neutral-400 hover:text-white transition-all bg-transparent rounded-sm">Mark Complete</button>}
-                      </>
-                    )}
-                    {stage === 'done' && canComplete && <button onClick={() => updateStage(task._id, 'progress')} className="px-3 py-1.5 text-[10px] uppercase tracking-widest border border-neutral-700 hover:border-white text-neutral-400 hover:text-white transition-all bg-transparent rounded-sm">Reopen</button>}
+                <div className="flex-1">
+                  <div className="flex justify-between items-start mb-3">
+                    <span className="text-[10px] font-mono tracking-widest text-blueprint bg-blueprint/5 px-1.5 py-0.5 border border-blueprint/20">
+                      {`{"dept":"${task.department}"}`}
+                    </span>
+                    {task.deadline && <span className="text-[10px] text-neutral-500 font-mono font-bold">Due: {new Date(task.deadline).toLocaleDateString(undefined, {month: 'short', day: 'numeric'})}</span>}
                   </div>
-                )}
-                <div className="h-[0.5px] w-full bg-neutral-800 mt-6 hidden last:block"></div>
+                  <h4 className="font-bold text-sm text-ink mb-2 font-mono">{task.title}</h4>
+                  <p className="text-xs text-neutral-600 leading-relaxed mb-4">{task.description}</p>
+                  <div className="flex items-center text-[10px] text-neutral-500 font-mono">
+                    <span>assignee:</span>
+                    <span className="ml-2 text-blueprint font-bold">"{task.assignee?.username || 'unassigned'}"</span>
+                  </div>
+                  
+                  {canModify && (
+                    <div className="absolute inset-0 bg-white/95 backdrop-blur-[2px] flex flex-col items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out font-mono z-10">
+                      {stage === 'todo' && <button onClick={() => updateStage(task._id, 'progress')} className="schematic-button text-[10px]">$ ./start_task.sh</button>}
+                      {stage === 'progress' && (
+                        <>
+                          <button onClick={() => updateStage(task._id, 'todo')} className="schematic-button text-[10px]">git revert</button>
+                          {canComplete && <button onClick={() => updateStage(task._id, 'done')} className="schematic-button text-[10px]">make complete</button>}
+                        </>
+                      )}
+                      {stage === 'done' && canComplete && <button onClick={() => updateStage(task._id, 'progress')} className="schematic-button text-[10px]">git checkout progress</button>}
+                    </div>
+                  )}
+                </div>
               </div>
             );
           })}
@@ -95,23 +100,23 @@ const KanbanTracker = () => {
 
   return (
     <div className="p-8 h-full flex flex-col max-w-7xl mx-auto">
-      <div className="flex justify-between items-end mb-8 border-b border-[#2c2c2e] pb-6">
+      <div className="flex justify-between items-end mb-8 border-b-2 border-ink pb-6">
         <div>
-          <h2 className="text-xl font-medium text-white mb-1">Project Board</h2>
-          <p className="text-xs text-neutral-500">Departmental workflow execution</p>
+          <h2 className="text-xl font-bold text-ink mb-1 font-mono">Project Board</h2>
+          <p className="text-xs text-neutral-500 font-mono">~/departmental_workflow_execution</p>
         </div>
         {(user.role === 'president' || user.role === 'department_lead') && (
-          <button onClick={() => setShowForm(!showForm)} className="bg-white text-black px-3 py-1.5 text-xs font-medium rounded hover:bg-neutral-200 transition-colors flex items-center">
-            <Plus className="w-3.5 h-3.5 mr-1.5" /> New Task
+          <button onClick={() => setShowForm(!showForm)} className="schematic-button text-xs flex items-center">
+            <Plus className="w-3.5 h-3.5 mr-1.5" /> [Insert_Task]
           </button>
         )}
       </div>
 
       {showForm && (
-        <form onSubmit={handleCreate} className="bg-[#161617] p-6 rounded-lg border-[0.5px] border-[#2c2c2e] mb-8">
+        <form onSubmit={handleCreate} className="schematic-card p-6 mb-8 font-mono">
           <div className="grid grid-cols-[2fr_1fr_1fr] gap-4 mb-4">
-            <input type="text" placeholder="Task Title" className="bg-[#1c1c1e] border border-[#2c2c2e] text-neutral-200 px-3 py-2 text-sm focus:border-neutral-500 outline-none rounded-sm transition-colors" required value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })} />
-            <select className="bg-[#1c1c1e] border border-[#2c2c2e] text-neutral-400 px-3 py-2 text-sm focus:border-neutral-500 outline-none rounded-sm transition-colors appearance-none" value={formData.department} onChange={e => setFormData({ ...formData, department: e.target.value })}>
+            <input type="text" placeholder="Task Title" className="schematic-input px-3 py-2 text-sm text-ink" required value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })} />
+            <select className="schematic-input text-blueprint px-3 py-2 text-sm appearance-none font-bold" value={formData.department} onChange={e => setFormData({ ...formData, department: e.target.value })}>
               {user.role === 'president' ? (
                 <>
                   <option value="tech">Tech</option>
@@ -123,20 +128,20 @@ const KanbanTracker = () => {
                 <option value={user.department}>{user.department}</option>
               )}
             </select>
-            <input type="date" className="bg-[#1c1c1e] border border-[#2c2c2e] text-neutral-400 px-3 py-2 text-sm focus:border-neutral-500 outline-none rounded-sm transition-colors appearance-none" required value={formData.deadline} onChange={e => setFormData({ ...formData, deadline: e.target.value })} />
+            <input type="date" className="schematic-input px-3 py-2 text-sm appearance-none text-ink" required value={formData.deadline} onChange={e => setFormData({ ...formData, deadline: e.target.value })} />
           </div>
-          <textarea placeholder="Technical specifics..." className="bg-[#1c1c1e] border border-[#2c2c2e] text-neutral-200 px-3 py-3 text-sm h-24 w-full mb-4 focus:border-neutral-500 outline-none rounded-sm transition-colors resize-none" required value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })} />
-          <div className="flex justify-end gap-3">
-            <button type="button" onClick={() => setShowForm(false)} className="px-3 py-1.5 text-xs text-neutral-500 hover:text-white transition-colors">Cancel</button>
-            <button type="submit" className="px-4 py-1.5 bg-white text-black text-xs font-medium rounded hover:bg-neutral-200 transition-colors">Dispatch Task</button>
+          <textarea placeholder="Technical specifics..." className="schematic-input px-3 py-3 text-sm h-24 w-full mb-4 resize-none text-ink" required value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })} />
+          <div className="flex justify-end gap-4 mt-2">
+            <button type="button" onClick={() => setShowForm(false)} className="text-xs text-neutral-500 hover:text-ink transition-colors font-bold tracking-widest uppercase">[Esc]</button>
+            <button type="submit" className="schematic-button text-xs">[Enter ↵] Dispatch</button>
           </div>
         </form>
       )}
 
-      <div className="flex flex-1 overflow-x-auto border-t border-l border-b border-[#2c2c2e] rounded-sm">
-        {renderCol('To Do', 'todo')}
-        {renderCol('In Progress', 'progress')}
-        {renderCol('Done', 'done')}
+      <div className="flex flex-1 overflow-x-auto gap-6 pb-4">
+        {renderCol('On the Prep Table', 'todo')}
+        {renderCol('On the Stove', 'progress')}
+        {renderCol('Plated & Served', 'done')}
       </div>
     </div>
   );

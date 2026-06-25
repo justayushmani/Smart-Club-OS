@@ -68,33 +68,33 @@ const AttendanceRegistry = () => {
   };
 
   return (
-    <div className="p-10 max-w-5xl mx-auto h-full overflow-y-auto">
-      <div className="flex justify-between items-end mb-10 border-b border-[#2c2c2e] pb-6">
+    <div className="p-10 max-w-5xl mx-auto h-full overflow-y-auto font-sans text-ink">
+      <div className="flex justify-between items-end mb-10 border-b-2 border-ink pb-6">
         <div>
-          <h2 className="text-xl font-medium text-white mb-1">Attendance Registry</h2>
-          <p className="text-xs text-neutral-500">Track and view meeting attendance records.</p>
+          <h2 className="text-3xl font-bold uppercase tracking-tight mb-1">Attendance Registry</h2>
+          <p className="text-sm font-mono text-neutral-600">Track and view meeting attendance records.</p>
         </div>
         {(user.role === 'president' || user.role === 'department_lead') && (
-          <button onClick={() => setShowForm(!showForm)} className="bg-white text-black px-3 py-1.5 text-xs font-medium rounded hover:bg-neutral-200 transition-colors flex items-center">
-            <Plus className="w-3.5 h-3.5 mr-1.5" /> Mark Attendance
+          <button onClick={() => setShowForm(!showForm)} className="schematic-button flex items-center text-xs">
+            <Plus className="w-4 h-4 mr-2" /> Mark Attendance
           </button>
         )}
       </div>
 
       {showForm && (
-        <form onSubmit={handleSubmit} className="bg-[#161617] p-6 rounded-lg border-[0.5px] border-[#2c2c2e] mb-10">
-          <div className="grid grid-cols-[2fr_1fr_1fr] gap-4 mb-6">
+        <form onSubmit={handleSubmit} className="schematic-card p-6 mb-10">
+          <div className="grid grid-cols-[2fr_1fr_1fr] gap-6 mb-6">
             <div>
-              <label className="block text-[10px] uppercase tracking-widest text-neutral-500 mb-2">Meeting Title</label>
-              <input type="text" placeholder="e.g. Weekly Sync" className="w-full bg-[#1c1c1e] border border-[#2c2c2e] text-neutral-200 px-3 py-2 text-sm focus:border-neutral-500 outline-none rounded-sm transition-colors" required value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })} />
+              <label className="block text-[10px] font-mono font-bold uppercase tracking-widest text-neutral-500 mb-2">Meeting Title</label>
+              <input type="text" placeholder="e.g. Weekly Sync" className="schematic-input w-full text-lg" required value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })} />
             </div>
             <div>
-              <label className="block text-[10px] uppercase tracking-widest text-neutral-500 mb-2">Date & Time</label>
-              <input type="datetime-local" className="w-full bg-[#1c1c1e] border border-[#2c2c2e] text-neutral-400 px-3 py-2 text-sm focus:border-neutral-500 outline-none rounded-sm transition-colors" required value={formData.date} onChange={e => setFormData({ ...formData, date: e.target.value })} />
+              <label className="block text-[10px] font-mono font-bold uppercase tracking-widest text-neutral-500 mb-2">Date & Time</label>
+              <input type="datetime-local" className="schematic-input w-full text-sm" required value={formData.date} onChange={e => setFormData({ ...formData, date: e.target.value })} />
             </div>
             <div>
-              <label className="block text-[10px] uppercase tracking-widest text-neutral-500 mb-2">Format</label>
-              <select className="w-full bg-[#1c1c1e] border border-[#2c2c2e] text-neutral-400 px-3 py-2 text-sm focus:border-neutral-500 outline-none rounded-sm transition-colors appearance-none" value={formData.format} onChange={e => setFormData({ ...formData, format: e.target.value })}>
+              <label className="block text-[10px] font-mono font-bold uppercase tracking-widest text-neutral-500 mb-2">Format</label>
+              <select className="schematic-input w-full text-sm appearance-none" value={formData.format} onChange={e => setFormData({ ...formData, format: e.target.value })}>
                 <option value="offline">Offline / In-person</option>
                 <option value="online">Online / Virtual</option>
               </select>
@@ -102,25 +102,25 @@ const AttendanceRegistry = () => {
           </div>
 
           <div className="mb-6">
-            <div className="flex justify-between items-center mb-3 border-b border-[#2c2c2e] pb-2">
-              <label className="block text-[10px] uppercase tracking-widest text-neutral-500">Select Attendees</label>
-              <span className="text-xs text-neutral-400">{formData.attendees.length} selected</span>
+            <div className="flex justify-between items-center mb-4 border-b-2 border-ink pb-2">
+              <label className="block text-[10px] font-mono font-bold uppercase tracking-widest text-ink">Select Attendees</label>
+              <span className="text-xs font-mono font-bold text-blueprint">{formData.attendees.length} selected</span>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
               {members.map(member => {
                 const isSelected = formData.attendees.includes(member._id);
                 return (
                   <div 
                     key={member._id}
                     onClick={() => toggleAttendee(member._id)}
-                    className={`flex items-center gap-3 p-3 rounded border ${isSelected ? 'bg-indigo-900/20 border-indigo-500/50' : 'bg-[#1c1c1e] border-[#2c2c2e] hover:border-neutral-600'} cursor-pointer transition-colors`}
+                    className={`flex items-center gap-3 p-3 schematic-card-flat cursor-pointer transition-colors ${isSelected ? 'bg-blueprint/10 border-blueprint' : 'hover:bg-neutral-100'}`}
                   >
-                    <div className={isSelected ? 'text-indigo-400' : 'text-neutral-500'}>
-                      {isSelected ? <CheckSquare className="w-4 h-4" /> : <Square className="w-4 h-4" />}
+                    <div className={isSelected ? 'text-blueprint' : 'text-neutral-400'}>
+                      {isSelected ? <CheckSquare className="w-5 h-5" /> : <Square className="w-5 h-5" />}
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-neutral-200 leading-tight">{member.username}</p>
-                      <p className="text-[10px] text-neutral-500 uppercase tracking-wide mt-0.5">{member.role} • {member.department}</p>
+                      <p className="text-sm font-bold text-ink leading-tight">{member.username}</p>
+                      <p className="text-[10px] text-neutral-500 font-mono font-bold uppercase tracking-widest mt-1">{member.role} • {member.department}</p>
                     </div>
                   </div>
                 );
@@ -128,44 +128,44 @@ const AttendanceRegistry = () => {
             </div>
           </div>
 
-          <div className="flex justify-end gap-3 pt-4 border-t border-[#2c2c2e]">
-            <button type="button" onClick={() => setShowForm(false)} className="px-3 py-1.5 text-xs text-neutral-500 hover:text-white transition-colors">Cancel</button>
-            <button type="submit" className="px-4 py-1.5 bg-white text-black text-xs font-medium rounded hover:bg-neutral-200 transition-colors">Save Attendance</button>
+          <div className="flex justify-end gap-4 pt-6 border-t-2 border-ink font-mono">
+            <button type="button" onClick={() => setShowForm(false)} className="px-4 py-2 text-xs font-bold uppercase tracking-widest text-neutral-500 hover:text-ink transition-colors">Cancel</button>
+            <button type="submit" className="schematic-button text-xs">Save Attendance</button>
           </div>
         </form>
       )}
 
       <div className="space-y-6">
         {records.map(record => (
-          <div key={record._id} className="bg-[#161617] p-8 rounded-lg border-[0.5px] border-[#2c2c2e] transition-all duration-150 ease-in-out hover:bg-neutral-800/40 hover:border-neutral-700 relative group flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div key={record._id} className="schematic-card-flat p-8 transition-all duration-150 ease-in-out hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[4px_4px_0_0_#111111] group flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="flex-1">
-              <div className="flex items-center gap-3 mb-3">
-                <span className={`border ${record.format === 'online' ? 'border-sky-900/50 text-sky-400 bg-sky-900/10' : 'border-amber-900/50 text-amber-400 bg-amber-900/10'} px-2 py-0.5 text-[9px] uppercase tracking-wider rounded-sm`}>
+              <div className="flex items-center gap-4 mb-4 font-mono font-bold">
+                <span className={`border-2 border-ink text-ink bg-transparent px-2 py-1 text-[10px] uppercase tracking-widest`}>
                   {record.format}
                 </span>
-                <span className="text-xs text-neutral-400">{new Date(record.date).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })}</span>
+                <span className="text-xs text-blueprint uppercase tracking-widest">{new Date(record.date).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })}</span>
               </div>
-              <h3 className="text-xl font-semibold text-white mb-2">{record.title}</h3>
-              <p className="text-[11px] text-neutral-500 uppercase tracking-widest">
-                Recorded by {record.recordedBy?.username}
+              <h3 className="text-2xl font-bold text-ink mb-2">{record.title}</h3>
+              <p className="text-[10px] text-neutral-500 font-mono font-bold uppercase tracking-widest">
+                Recorded by <span className="text-ink ml-1">{record.recordedBy?.username}</span>
               </p>
             </div>
             
-            <div className="flex flex-col items-end gap-3 md:min-w-[200px]">
+            <div className="flex flex-col items-end gap-4 md:min-w-[200px]">
               {(user.role === 'president' || user.role === 'department_lead') && (
-                <button onClick={() => handleDelete(record._id)} className="text-neutral-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity absolute top-6 right-6">
-                  <Trash2 className="w-4 h-4" />
+                <button onClick={() => handleDelete(record._id)} className="text-neutral-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity absolute top-6 right-6">
+                  <Trash2 className="w-5 h-5" />
                 </button>
               )}
               
-              <div className="flex items-center gap-2 text-indigo-400 bg-indigo-900/10 border border-indigo-900/30 px-3 py-1.5 rounded-full">
+              <div className="flex items-center gap-2 text-blueprint border-2 border-blueprint px-4 py-2 bg-transparent font-mono font-bold uppercase tracking-widest">
                 <UsersIcon className="w-4 h-4" />
-                <span className="text-sm font-medium">{record.attendees?.length || 0} Attended</span>
+                <span className="text-[10px]">{record.attendees?.length || 0} Attended</span>
               </div>
               
-              <div className="flex flex-wrap gap-1 justify-end max-w-xs">
+              <div className="flex flex-wrap gap-2 justify-end max-w-xs mt-2">
                 {record.attendees?.map(att => (
-                  <span key={att._id} className="bg-[#1c1c1e] text-neutral-300 text-[10px] px-2 py-1 rounded border border-[#2c2c2e]" title={`${att.role} - ${att.department}`}>
+                  <span key={att._id} className="text-ink bg-transparent font-mono font-bold text-[10px] px-2 py-1 border-2 border-ink uppercase tracking-widest" title={`${att.role} - ${att.department}`}>
                     {att.username}
                   </span>
                 ))}
@@ -174,7 +174,7 @@ const AttendanceRegistry = () => {
           </div>
         ))}
         {records.length === 0 && (
-          <div className="text-center text-neutral-600 text-sm py-10">No attendance records found.</div>
+          <div className="text-center font-mono text-neutral-500 text-sm py-10 uppercase tracking-widest">No attendance records found.</div>
         )}
       </div>
     </div>

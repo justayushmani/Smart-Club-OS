@@ -6,14 +6,72 @@
 
 @layer base {
   body {
-    @apply bg-[#0a0a0a] text-neutral-200 antialiased selection:bg-indigo-500/30 selection:text-white;
+    @apply bg-paper text-ink antialiased selection:bg-blueprint/20 selection:text-ink;
+    background-image: linear-gradient(theme('colors.drafting') 1px, transparent 1px),
+                      linear-gradient(90deg, theme('colors.drafting') 1px, transparent 1px);
+    background-size: 20px 20px;
+    background-position: -1px -1px;
+    background-attachment: fixed;
   }
 }
 
-.kanban-col {
-  @apply min-h-[400px] p-4 bg-gray-100 rounded-lg shadow-inner;
+@layer components {
+  /* Legacy dark mode components (kept for fallback just in case) */
+  .bento-card {
+    @apply bg-surface border-[0.5px] border-neutral-800/80 rounded relative overflow-hidden transition-all duration-300;
+  }
+  .bento-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(90deg, theme('colors.mint'), transparent 50%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    pointer-events: none;
+  }
+  .bento-card:hover::after {
+    opacity: 1;
+    animation: border-trace 2s linear infinite;
+  }
+  
+  /* New Swiss Schematic Light Mode components */
+  .schematic-card {
+    @apply bg-white border-2 border-ink rounded-none relative transition-all duration-300;
+    box-shadow: 4px 4px 0 0 theme('colors.ink');
+  }
+  .schematic-card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 0 theme('colors.ink');
+  }
+  .schematic-card-flat {
+    @apply bg-white border-2 border-ink rounded-none relative;
+  }
+  
+  .terminal-input {
+    @apply border-b border-neutral-800 focus:border-mint bg-transparent transition-colors outline-none;
+  }
+  .schematic-input {
+    @apply border-b-2 border-ink focus:border-blueprint bg-transparent transition-colors outline-none font-mono placeholder-neutral-400;
+  }
+  .schematic-button {
+    @apply bg-white border-2 border-ink text-ink font-mono uppercase tracking-widest px-4 py-2 hover:bg-blueprint hover:text-white hover:border-blueprint transition-colors cursor-pointer select-none;
+    box-shadow: 2px 2px 0 0 theme('colors.ink');
+  }
+  .schematic-button:active {
+    transform: translate(2px, 2px);
+    box-shadow: 0px 0px 0 0 theme('colors.ink');
+  }
 }
 
-.kanban-card {
-  @apply p-4 mb-4 bg-white rounded-lg shadow border border-gray-200 transition-all hover:shadow-md;
+@keyframes border-trace {
+  0% { background: linear-gradient(0deg, theme('colors.mint'), transparent 50%); }
+  25% { background: linear-gradient(90deg, theme('colors.mint'), transparent 50%); }
+  50% { background: linear-gradient(180deg, theme('colors.mint'), transparent 50%); }
+  75% { background: linear-gradient(270deg, theme('colors.mint'), transparent 50%); }
+  100% { background: linear-gradient(360deg, theme('colors.mint'), transparent 50%); }
 }
